@@ -43,7 +43,7 @@ class chunk_list {
     }
 
     ~chunk_list() {
-
+      ::operator delete[](ptr_list_);
     }
 
     /* moved */
