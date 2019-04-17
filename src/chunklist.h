@@ -47,8 +47,13 @@ class chunk_list {
     }
 
     /* moved */
-    chunk_list(chunk_list &&other) noexcept {
-      (void)other;
+    chunk_list(chunk_list &&other) noexcept
+      : size_(other.size_)
+      , ptr_list_(other.ptr_list_)
+      , head_(other.head_) {
+      other.size_ = 0;
+      other.ptr_list_ = nullptr;
+      other.head_ = nullptr;
     }
 
     chunk_list & operator =(chunk_list &&other) noexcept {
