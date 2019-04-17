@@ -57,7 +57,9 @@ class chunk_list {
     }
 
     chunk_list & operator =(chunk_list &&other) noexcept {
-      (void)other;
+      std::swap(size_, other.size_);
+      std::swap(ptr_list_, other.ptr_list_);
+      std::swap(head_, other.head_);
       return *this;
     }
 
