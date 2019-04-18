@@ -8,9 +8,9 @@
 
 const size_t AMOUNT_OF_ELEMENTS = 10;
 
-using normal_map_t = std::map<uint16_t, uint16_t>;
-using fixed_map_t = std::map<uint16_t, uint16_t, std::less<uint16_t>,
-  fixed_allocator<std::pair<const uint16_t, uint16_t>, AMOUNT_OF_ELEMENTS>>;
+using normal_map_t = std::map<int, int>;
+using fixed_map_t = std::map<int, int, std::less<int>,
+  fixed_allocator<std::pair<const int, int>, AMOUNT_OF_ELEMENTS>>;
 
 /* ------------------------------------------------------------------------- */
 int factorial(int x)
@@ -19,7 +19,8 @@ int factorial(int x)
 }
 
 /* ------------------------------------------------------------------------- */
-void print_map(normal_map_t &map)
+template<typename T>
+void print_map(T &map)
 {
   for (auto &p: map) {
       std::cout << p.first << " " << p.second << std::endl;
@@ -37,5 +38,11 @@ int main() {
 
   print_map(normal_map);
 
+  fixed_map_t fixed_map;
+  for (unsigned i = 0; i < AMOUNT_OF_ELEMENTS; ++i) {
+    fixed_map[i] = factorial(i);
+  }
+
+  print_map(fixed_map);
   return 0;
 }
