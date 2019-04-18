@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <iostream>
 
-#define DEBUGING
+//#define DEBUGING
 
 namespace {
   /**
