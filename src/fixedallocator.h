@@ -35,26 +35,42 @@ class fixed_allocator
 
 
     pointer allocate(std::size_t n) {
+      pointer res = nullptr;
 
-      return reinterpret_cast<pointer>(0);
+      if (n == 1) {
+        if (!mem_chunk_.is_filed())
+          res = mem_chunk_.alloc();
+      }
+      else
+        res = reinterpret_cast<pointer>(::operator new(n * sizeof(T)));
+
+      return res;
     }
 
     void deallocate(pointer p, std::size_t n) {
-
+      if (n == 1) {
+        if (mem_chunk_.is_valid_addr(p)) {
+          mem_chunk_.dealloc(p);
+          return;
+        }
+        // TODO: Added throw!!!
+      }
+      else
+        ::operator delete(p);
     }
 
     template<class U, class... Args>
     void construct(U *p, Args &&... args) {
-
+      ::new((void *) p) U(std::forward<Args>(args)...);
     }
 
     template<class U>
     void destroy(U *p) {
-
+      p->~U();
     }
 
    private:
-//     std::list<fixed_size_list<T, ELEMENTS>> caches_;
+    chunk_list<T, ELEMENTS> mem_chunk_;
   };
 
 #endif  /* FIXEDALLOCATOR_H_ */
