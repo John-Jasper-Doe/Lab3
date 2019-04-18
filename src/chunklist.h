@@ -68,35 +68,37 @@ class chunk_list {
     chunk_list & operator =(const chunk_list &) = delete;
 
     T * alloc() {
-      if (head_->next != nullptr) {
+      if (head_ == nullptr && ptr_list_ != nullptr)
+        head_ = ptr_list_;
+      else if (head_->next != nullptr)
         head_ = head_->next;
-        ++size_;
-
-        return &head_->value;
-      }
       else
         return nullptr;
+
+      ++size_;
+      return &head_->value;
     }
 
     void dealloc(T *ptr) {
       if (!is_valid_addr(ptr) && ptr == nullptr)
         return;
 
-      if (ptr == &head_->value && head_->prev != nullptr) {
+      if (ptr == &head_->value) {
         head_ = head_->prev;
         --size_;
       }
     }
 
     bool is_valid_addr(T *ptr) {
-      return ptr >= ptr_list_ && ptr < ptr_list_[CAPACITY * sizeof(chunk<T>)];
+      return (char *)ptr >= (char *)ptr_list_ &&
+             (char *)ptr < (char *)(ptr_list_ + (CAPACITY * sizeof(chunk<T>)));
     }
 
   private:
     std::size_t size_ = 0;
     chunk<T> *ptr_list_ =
         static_cast<chunk<T> *>(::operator new[](CAPACITY * sizeof(chunk<T>)));
-    chunk<T> *head_ = ptr_list_;
+    chunk<T> *head_ = nullptr;
 };
 
 #endif /* CHUNKLIST_H_ */
