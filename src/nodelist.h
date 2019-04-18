@@ -91,7 +91,7 @@ class node_list
     node_list & operator =(const node_list &) = delete;
 
     iterator_t begin() { return iterator_t(head_); }
-    iterator_t end() { return iterator_t(head_); }
+    iterator_t end() { return iterator_t(); }
 
     const_iterator_t cbegin() const { return const_iterator_t(head_); }
     const_iterator_t cend() const { return const_iterator_t(); }
