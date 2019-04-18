@@ -25,14 +25,8 @@ template<typename T>
 class node_iterator : public std::iterator<std::input_iterator_tag, T>
 {
   public:
-//    friend class node_list;
-
-    node_iterator(T *p = nullptr)
+    node_iterator(node<T> *p = nullptr)
       : ptr_(p)
-    {}
-
-    node_iterator(const node_iterator &it)
-      : ptr_(it.ptr_)
     {}
 
     bool operator !=(node_iterator const &other) const {
@@ -44,16 +38,17 @@ class node_iterator : public std::iterator<std::input_iterator_tag, T>
     }
 
     typename node_iterator::reference operator *() const {
-      return *ptr_;
+      return ptr_->value;
     }
 
     node_iterator & operator ++() {
-      ++ptr_;
+      if (ptr_)
+        ptr_ = ptr_->next;
       return *this;
     }
 
   private:
-    T *ptr_;
+    node<T> *ptr_;
 
 };
 
