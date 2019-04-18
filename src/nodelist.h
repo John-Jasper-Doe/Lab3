@@ -98,6 +98,53 @@ class node_list
 
     std::size_t size() { return size_; }
 
+    void push_front(T &value) {
+      node_t *new_node = allocator.allocate(1);
+      allocator.construct(new_node, node_t{nullptr, value});
+      new_node->next = head_;
+      head_ = new_node;
+      ++size_;
+    }
+
+    void push_front(T &&value) {
+      node_t *new_node = allocator.allocate(1);
+      allocator.construct(new_node, node_t{nullptr, std::move(value)});
+      new_node->next = head_;
+      head_ = new_node;
+      ++size_;
+    }
+
+    void push_back(T &value) {
+      node_t *new_node = allocator.allocate(1);
+      allocator.construct(new_node, node_t{nullptr, value});
+
+      node_t *next_node = head_->next;
+      while (next_node)
+        next_node = next_node->next;
+
+      next_node = new_node;
+      ++size_;
+    }
+
+    void push_back(T &&value) {
+      node_t *new_node = allocator.allocate(1);
+      allocator.construct(new_node, node_t{nullptr, std::move(value)});
+
+      if (head_ == nullptr)
+        head_ = new_node;
+      else {
+        node_t *next_node = head_->next;
+        if (next_node == nullptr)
+          head_->next = new_node;
+        else {
+          while (next_node->next)
+            next_node = next_node->next;
+
+          next_node->next = new_node;
+        }
+      }
+      ++size_;
+    }
 
   private:
     std::size_t size_ = 0;
