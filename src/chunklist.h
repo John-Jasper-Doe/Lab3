@@ -94,6 +94,15 @@ class chunk_list {
              (char *)ptr < (char *)(ptr_list_ + (CAPACITY * sizeof(chunk<T>)));
     }
 
+    bool is_filed() {
+      return size() == CAPACITY;
+    }
+
+    std::size_t size() {
+      return size_;
+    }
+
+
   private:
     std::size_t size_ = 0;
     chunk<T> *ptr_list_ =
