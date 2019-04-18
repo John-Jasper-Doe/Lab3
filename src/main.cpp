@@ -1,4 +1,5 @@
 #include "fixedallocator.h"
+#include "nodelist.h"
 
 #include <iostream>
 #include <map>
