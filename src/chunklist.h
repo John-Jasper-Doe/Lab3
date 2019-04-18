@@ -26,7 +26,8 @@ class chunk_list {
     chunk_list() {
     #ifdef DEBUGING
       std::cout << "CAPACITY = " << CAPACITY << "\n" <<
-                   "Type size = " << sizeof(int) << " byte" << std::endl;
+                   "Type size = " << sizeof(T) << " byte\n"
+                   "Chunk size = " << sizeof(chunk<T>) << " byte" << std::endl;
     #endif
 
       for (std::size_t i = 0; i < CAPACITY; ++i) {
