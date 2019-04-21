@@ -46,20 +46,30 @@ void print_list(T &list)
 /* ------------------------------------------------------------------------- */
 int main() {
   normal_map_t normal_map;
-  fixed_map_t fixed_map;
-  normal_node_list_t normal_node_list;
-  fixed_node_list_t fixed_node_list;
-
   for (unsigned i = 0; i < AMOUNT_OF_ELEMENTS; ++i) {
     normal_map[i] = factorial(i);
+  }
+  print_map(normal_map);
+
+
+  fixed_map_t fixed_map;
+  for (unsigned i = 0; i < AMOUNT_OF_ELEMENTS; ++i) {
     fixed_map[i] = factorial(i);
+  }
+  print_map(fixed_map);
+
+
+  normal_node_list_t normal_node_list;
+  for (unsigned i = 0; i < AMOUNT_OF_ELEMENTS; ++i) {
     normal_node_list.push_back(factorial(i));
+  }
+  print_list(normal_node_list);
+
+
+  fixed_node_list_t fixed_node_list;
+  for (unsigned i = 0; i < AMOUNT_OF_ELEMENTS; ++i) {
     fixed_node_list.push_back(factorial(i));
   }
-
-  print_map(normal_map);
-  print_map(fixed_map);
-  print_list(normal_node_list);
   print_list(fixed_node_list);
 
   return 0;
