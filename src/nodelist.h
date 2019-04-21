@@ -98,6 +98,7 @@ class node_list
 
     std::size_t size() { return size_; }
 
+    /* Push_fronts... */
     void push_front(T &value) {
       node_t *new_node = allocator.allocate(1);
       allocator.construct(new_node, node_t{nullptr, value});
@@ -114,15 +115,34 @@ class node_list
       ++size_;
     }
 
+    template<typename... Args>
+    void push_front(Args &&... args) {
+      node_t *new_node = allocator.allocate(1);
+      allocator.construct(new_node, node_t{nullptr,
+                                           T(std::forward<Args>(args)...)});
+      new_node->next = head_;
+      head_ = new_node;
+      ++size_;
+    }
+
+    /* Push_backs... */
     void push_back(T &value) {
       node_t *new_node = allocator.allocate(1);
       allocator.construct(new_node, node_t{nullptr, value});
 
-      node_t *next_node = head_->next;
-      while (next_node)
-        next_node = next_node->next;
+      if (head_ == nullptr)
+        head_ = new_node;
+      else {
+        node_t *next_node = head_->next;
+        if (next_node == nullptr)
+          head_->next = new_node;
+        else {
+          while (next_node->next)
+            next_node = next_node->next;
 
-      next_node = new_node;
+          next_node->next = new_node;
+        }
+      }
       ++size_;
     }
 
@@ -145,6 +165,29 @@ class node_list
       }
       ++size_;
     }
+
+    template<typename... Args>
+    void push_back(Args &&... args) {
+      node_t *new_node = allocator.allocate(1);
+      allocator.construct(new_node, node_t{nullptr,
+                                           T(std::forward<Args>(args)...)});
+
+      if (head_ == nullptr)
+        head_ = new_node;
+      else {
+        node_t *next_node = head_->next;
+        if (next_node == nullptr)
+          head_->next = new_node;
+        else {
+          while (next_node->next)
+            next_node = next_node->next;
+
+          next_node->next = new_node;
+        }
+      }
+      ++size_;
+    }
+
 
   private:
     std::size_t size_ = 0;
