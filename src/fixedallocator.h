@@ -25,14 +25,11 @@ class fixed_allocator
     fixed_allocator() = default;
     ~fixed_allocator() = default;
 
-    /* moved */
+    fixed_allocator(const fixed_allocator &) = default;
     fixed_allocator(fixed_allocator &&) noexcept = default;
+
+    fixed_allocator &operator=(const fixed_allocator &) = default;
     fixed_allocator &operator=(fixed_allocator &&) noexcept = default;
-
-    /* don't copyed */
-    fixed_allocator(const fixed_allocator &) = delete;
-    fixed_allocator &operator=(const fixed_allocator &) = delete;
-
 
     pointer allocate(std::size_t n) {
       pointer res = nullptr;
