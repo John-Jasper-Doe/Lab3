@@ -5,7 +5,7 @@
 #include <iostream>
 #include <memory>
 
-#define DEBUGING
+#define DEBUG_CODE
 
 /**
  *
@@ -105,6 +105,10 @@ class node_list
       new_node->next = head_;
       head_ = new_node;
       ++size_;
+
+#ifdef DEBUG_CODE
+      std::cout << "void push_front(T &value)" << std::endl;
+#endif /* DEBUG_CODE */
     }
 
     void push_front(T &&value) {
@@ -113,6 +117,10 @@ class node_list
       new_node->next = head_;
       head_ = new_node;
       ++size_;
+
+#ifdef DEBUG_CODE
+      std::cout << "void push_front(T &&value)" << std::endl;
+#endif /* DEBUG_CODE */
     }
 
     template<typename... Args>
@@ -123,6 +131,10 @@ class node_list
       new_node->next = head_;
       head_ = new_node;
       ++size_;
+
+#ifdef DEBUG_CODE
+      std::cout << "void push_front(Args &&... args)" << std::endl;
+#endif /* DEBUG_CODE */
     }
 
     /* Push_backs... */
