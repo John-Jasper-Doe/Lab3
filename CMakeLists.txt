@@ -1,22 +1,21 @@
 cmake_minimum_required(VERSION 3.2)
 
-if (DEFINED ENV{TRAVIS_BUILD_NUMBER})
+if(DEFINED ENV{TRAVIS_BUILD_NUMBER})
     project(allocator VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
-else ()
+else()
     project(allocator VERSION 0.0.1)
-endif ()
+endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin)
 
 find_package(Threads)
 add_executable(${PROJECT_NAME} ./src/main.cpp)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wextra -pedantic")
 set_target_properties(${PROJECT_NAME} PROPERTIES
                 CXX_STANDARD 14
                 CXX_STANDARD_REQUIRED ON
                 LINK_LIBRARIES pthread
-                COMPILE_OPTIONS "-O0;-Wall;-Wextra;-Werror;-Wpedantic"
+                COMPILE_OPTIONS "-g;-O0;-Wall;-Wextra;-Werror;-Wpedantic"
                 )
 
 
