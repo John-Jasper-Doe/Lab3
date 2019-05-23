@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file    nodelist.h
+ * @file    nodelist.hpp
  * @author  Maxim <aveter@bk.ru>
  * @date    01/05/2019
  * @brief   Description of the template "Node List".
