@@ -1,3 +1,12 @@
+/**
+ ******************************************************************************
+ * @file    nodelist.h
+ * @author  Maxim <aveter@bk.ru>
+ * @date    01/05/2019
+ * @brief   Description of the template "Node List".
+ ******************************************************************************
+ */
+
 #ifndef NODELIST_H_
 #define NODELIST_H_
 
@@ -5,25 +14,21 @@
 #include <iostream>
 #include <memory>
 
-#define DEBUG_CODE
-
 
 namespace {
 
 /**
  * Discription of the structure of the node of a singe-linked list.
  *
- * @tparam T - type of the node.
+ * @tparam T - the type of variable stored in the node.
  */
 template<typename T>
 struct node {
   node *next;   /**< - next node. */
   T value;      /**< - value of the node */
 
-
   /**
-   * Constructor with a variable number of parameters.
-   *
+   * @brief Constructor with a variable number of parameters.
    * @tparam - ...Args - constructor params.
    */
   template<typename ...Args>
@@ -36,15 +41,14 @@ struct node {
 /**
  * Discription of an iterator for working with a single-linked list.
  *
- * @tparam T - type of the node.
+ * @tparam T - the type of variable stored in the node.
  */
 template<typename T>
 class node_iterator : public std::iterator<std::input_iterator_tag, T>
 {
   public:
     /**
-     * Constructor with param.
-     *
+     * @brief Constructor with param.
      * @param p [in] - pointer to a single-linked list. Default p = nullptr.
      */
     node_iterator(node<T> *p = nullptr)
@@ -52,8 +56,7 @@ class node_iterator : public std::iterator<std::input_iterator_tag, T>
     {}
 
     /**
-     * Inequality operator.
-     *
+     * @brief Inequality operator.
      * @param  other [in] - iterator.
      * @return true if the iterators are not equal and false otherwise.
      */
@@ -62,8 +65,7 @@ class node_iterator : public std::iterator<std::input_iterator_tag, T>
     }
 
     /**
-     * Comparison operator.
-     *
+     * @brief Comparison operator.
      * @param other [in] - iterator
      * @return true if equal and false otherwise.
      */
@@ -72,8 +74,7 @@ class node_iterator : public std::iterator<std::input_iterator_tag, T>
     }
 
     /**
-     * Dereference operator.
-     *
+     * @brief Dereference operator.
      * @return reference on the data.
      */
     const T & operator*() const {
@@ -81,8 +82,7 @@ class node_iterator : public std::iterator<std::input_iterator_tag, T>
     }
 
     /**
-     * Pointer selector operator.
-     *
+     * @brief Pointer selector operator.
      * @return pointer on the data.
      */
     const T * operator->() const {
@@ -90,8 +90,7 @@ class node_iterator : public std::iterator<std::input_iterator_tag, T>
     }
 
     /**
-     * Increment operator.
-     *
+     * @brief Increment operator.
      * @return increment data.
      */
     node_iterator & operator++() {
