@@ -152,19 +152,34 @@ void copy(node_list<Tp, Aloc> &dst, const node_list<Tp, Aloc> &src)
   }
 }
 
+
+/**
+ * Discription of the container for working with a single-linked list.
+ *
+ * @tparam T - the type of variable stored in the node.
+ * @tparam A - allocator, memory manager for working with container. Default on
+ *             std::allocator.
+ */
 template<typename T, typename A = std::allocator<node<T>>>
 class node_list
 {
   public:
-
+    /* Aliases */
     using node_t = node<T>;
     using allocator_t =
             typename std::allocator_traits<A>::template rebind_alloc<node_t>;
     using iterator_t = node_iterator<T>;
     using const_iterator_t = const node_iterator<T>;
 
+    /**
+     * The default constructor.
+     */
     node_list() = default;
-    ~node_list() {
+
+    /**
+     * The distructor
+     */
+    virtual ~node_list() {
       while (head_) {
         node_t *next = head_->next;
         allocator.destroy(&head_->value);
@@ -173,110 +188,147 @@ class node_list
       }
     }
 
-    /* moved */
-    node_list(node_list &&other) noexcept { std::swap(this, other); }
-    node_list & operator =(node_list &&other) noexcept {
-      std::swap(this, other);
+    /**
+     * @brief Copy constructor.
+     * @param other [in] - the object to copy.
+     */
+    node_list(const node_list &other) {
+      copy(this, other);
+    }
+
+    /**
+     * @brief Move constructor.
+     * @param other [in] - the object to move.
+     */
+    node_list(node_list &&other) {
+      swap(this, other);
+    }
+
+    /**
+     * @brief Copy operator.
+     * @param other [in] - the object to copy.
+     */
+    node_list & operator=(const node_list & other) {
+      copy(this, other);
       return *this;
     }
 
-    /* don't copyed */
-    node_list(const node_list &) = delete;
-    node_list & operator =(const node_list &) = delete;
+    /**
+     * @brief Move operator.
+     * @param other [in] - the object to move.
+     */
+    node_list & operator=(node_list &&other) {
+      swap(this, other);
+      return *this;
+    }
 
-    iterator_t begin() { return iterator_t(head_); }
-    iterator_t end() { return iterator_t(); }
+    /**
+     * @brief  The begin iterator of the node list.
+     * @return Returns an iterator to the beginning of the node list.
+     */
+    iterator_t begin() {
+      return iterator_t(head_);
+    }
 
-    const_iterator_t cbegin() const { return const_iterator_t(head_); }
+    /**
+     * @brief  The end iterator of the node list.
+     * @return Returns an iterator to the end of the node list.
+     */
+    iterator_t end() {
+      return iterator_t();
+    }
+
+    /**
+     * @brief  The const begin iterator of the node list.
+     * @return Returns an const iterator to the beginning of the node list.
+     */
+    const_iterator_t cbegin() const {
+      return const_iterator_t(head_);
+    }
+
+    /**
+     * @brief  The const end iterator of the node list.
+     * @return Returns an const iterator to the end of the node list.
+     */
     const_iterator_t cend() const { return const_iterator_t(); }
 
-    std::size_t size() { return size_; }
+    /**
+     * @brief The number of data in the node list.
+     * @return The number of data.
+     */
+    std::size_t size() {
+      return size_;
+    }
 
-    /* Push_fronts... */
+    /**
+     * @brief Add an item to the top of the list.
+     * @param value [in] - add value.
+     */
     void push_front(T &value) {
       node_t *new_node = allocator.allocate(1);
       allocator.construct(new_node, node_t{nullptr, value});
-      new_node->next = head_;
-      head_ = new_node;
-      ++size_;
-
-#ifdef DEBUG_CODE
-      std::cout << "void push_front(T &value)" << std::endl;
-#endif /* DEBUG_CODE */
+      push_front_helper(new_node);
     }
 
+    /**
+     * @brief Add an item to the top of the list.
+     * @param value [in] - add value.
+     */
     void push_front(T &&value) {
       node_t *new_node = allocator.allocate(1);
       allocator.construct(new_node, node_t{nullptr, std::move(value)});
-      new_node->next = head_;
-      head_ = new_node;
-      ++size_;
-
-#ifdef DEBUG_CODE
-      std::cout << "void push_front(T &&value)" << std::endl;
-#endif /* DEBUG_CODE */
+      push_front_helper(new_node);
     }
 
+    /**
+     * @brief Add an item to the top of the list (variable number of params).
+     * @tparam ...Args - params.
+     * @param args [in] - add value.
+     */
     template<typename... Args>
     void push_front(Args &&... args) {
       node_t *new_node = allocator.allocate(1);
-      allocator.construct(new_node, node_t{nullptr,
-                                           T(std::forward<Args>(args)...)});
-      new_node->next = head_;
-      head_ = new_node;
-      ++size_;
-
-#ifdef DEBUG_CODE
-      std::cout << "void push_front(Args &&... args)" << std::endl;
-#endif /* DEBUG_CODE */
+      allocator.construct(new_node, std::forward<Args>(args)...);
+      push_front_helper(new_node);
     }
 
-    /* Push_backs... */
+    /**
+     * @brief Add an item to the back of the list.
+     * @param value [in] - add value.
+     */
     void push_back(T &value) {
       node_t *new_node = allocator.allocate(1);
       allocator.construct(new_node, node_t{nullptr, value});
-
-      if (head_ == nullptr)
-        head_ = new_node;
-      else {
-        node_t *next_node = head_->next;
-        if (next_node == nullptr)
-          head_->next = new_node;
-        else {
-          while (next_node->next)
-            next_node = next_node->next;
-
-          next_node->next = new_node;
-        }
-      }
-      ++size_;
+      push_back_helper(new_node);
     }
 
+    /**
+     * @brief Add an item to the back of the list.
+     * @param value [in] - add value.
+     */
     void push_back(T &&value) {
       node_t *new_node = allocator.allocate(1);
       allocator.construct(new_node, node_t{nullptr, std::move(value)});
-
-      if (head_ == nullptr)
-        head_ = new_node;
-      else {
-        node_t *next_node = head_->next;
-        if (next_node == nullptr)
-          head_->next = new_node;
-        else {
-          while (next_node->next)
-            next_node = next_node->next;
-
-          next_node->next = new_node;
-        }
-      }
-      ++size_;
+      push_back_helper(new_node);
     }
 
+    /**
+     * @brief Add an item to the back of the list (variable number of params).
+     * @tparam ...Args - params.
+     * @param args [in] - add value.
+     */
     template<typename... Args>
     void push_back(Args &&... args) {
       node_t *new_node = allocator.allocate(1);
-      allocator.construct(new_node, node_t{nullptr,
-                                           T(std::forward<Args>(args)...)});
+      allocator.construct(new_node, std::forward<Args>(args)...);
+      push_back_helper(new_node);
+    }
+
+
+  private:
+    std::size_t size_ = 0;    /**< - number of data in the node list */
+    node_t *head_ = nullptr;  /**< - pointer to the head on the list */
+    allocator_t allocator{};  /**< - memory manager */
 
     /* Friends function */
     template<typename Tp, typename Aloc>
@@ -284,27 +336,37 @@ class node_list
 
     template<typename Tp, typename Aloc>
     friend void copy(node_list<Tp, Aloc> &dst, const node_list<Tp, Aloc> &src);
+
+    /**
+     * @brief The push_back helper function.
+     * @param ptr_new_node [in] - pointer to the new node.
+     */
+    void push_back_helper(node_t * const ptr_new_node) {
       if (head_ == nullptr)
-        head_ = new_node;
+        head_ = ptr_new_node;
       else {
         node_t *next_node = head_->next;
         if (next_node == nullptr)
-          head_->next = new_node;
+          head_->next = ptr_new_node;
         else {
           while (next_node->next)
             next_node = next_node->next;
 
-          next_node->next = new_node;
+          next_node->next = ptr_new_node;
         }
       }
       ++size_;
     }
 
-
-  private:
-    std::size_t size_ = 0;
-    node_t *head_ = nullptr;
-    allocator_t allocator{};
+    /**
+     * @brief The push_front helper function.
+     * @param ptr_new_node [in] - pointer to the new node.
+     */
+    void push_front_helper(node_t *ptr_new_node) {
+      ptr_new_node->next = head_;
+      head_ = ptr_new_node;
+      ++size_;
+    }
 };
 
 #endif /* NODELIST_H_ */
