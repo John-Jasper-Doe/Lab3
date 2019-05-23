@@ -7,17 +7,29 @@
 
 #define DEBUG_CODE
 
-/**
- *
- */
+
 namespace {
+
 /**
+ * Discription of the structure of the node of a singe-linked list.
  *
+ * @tparam T - type of the node.
  */
 template<typename T>
 struct node {
-  node *next;
-  T value;
+  node *next;   /**< - next node. */
+  T value;      /**< - value of the node */
+
+
+  /**
+   * Constructor with a variable number of parameters.
+   *
+   * @tparam - ...Args - constructor params.
+   */
+  template<typename ...Args>
+  node(Args &&... args)
+    : next(nullptr), value(std::forward<Args>(args)...)
+  {}
 };
 
 
