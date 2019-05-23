@@ -33,34 +33,76 @@ struct node {
 };
 
 
+/**
+ * Discription of an iterator for working with a single-linked list.
+ *
+ * @tparam T - type of the node.
+ */
 template<typename T>
 class node_iterator : public std::iterator<std::input_iterator_tag, T>
 {
   public:
+    /**
+     * Constructor with param.
+     *
+     * @param p [in] - pointer to a single-linked list. Default p = nullptr.
+     */
     node_iterator(node<T> *p = nullptr)
       : ptr_(p)
     {}
 
-    bool operator !=(node_iterator const &other) const {
+    /**
+     * Inequality operator.
+     *
+     * @param  other [in] - iterator.
+     * @return true if the iterators are not equal and false otherwise.
+     */
+    bool operator!=(node_iterator const &other) const {
       return ptr_ != other.ptr_;
     }
 
-    bool operator ==(node_iterator const &other) const {
+    /**
+     * Comparison operator.
+     *
+     * @param other [in] - iterator
+     * @return true if equal and false otherwise.
+     */
+    bool operator==(node_iterator const &other) const {
       return ptr_ == other.ptr_;
     }
 
-    typename node_iterator::reference operator *() const {
+    /**
+     * Dereference operator.
+     *
+     * @return reference on the data.
+     */
+    const T & operator*() const {
       return ptr_->value;
     }
 
-    node_iterator & operator ++() {
+    /**
+     * Pointer selector operator.
+     *
+     * @return pointer on the data.
+     */
+    const T * operator->() const {
+      return &(ptr_->value);
+    }
+
+    /**
+     * Increment operator.
+     *
+     * @return increment data.
+     */
+    node_iterator & operator++() {
       if (ptr_)
         ptr_ = ptr_->next;
       return *this;
     }
 
+
   private:
-    node<T> *ptr_;
+    node<T> *ptr_{nullptr};   /**< - pointer to a single-linked list. */
 
 };
 
