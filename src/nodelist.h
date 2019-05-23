@@ -108,8 +108,49 @@ class node_iterator : public std::iterator<std::input_iterator_tag, T>
 } /* namespace */
 
 
+/* Forward ad */
+template<typename T, typename A>
+class node_list;
 
+/**
+ * Swap the node list.
+ *
+ * @tparam Tp - the type of variable stored in the node.
+ * @tparam Aloc - allocator, memory manager for working with container. Default
+ *                on std::allocator.
+ * @param dst [in] - receiving container.
+ * @param src [out] - source container.
+ */
+template<typename Tp, typename Aloc = std::allocator<node<Tp>>>
+void swap(node_list<Tp, Aloc> &dst, node_list<Tp, Aloc> &src)
+{
+  std::swap(dst.head_, src.head_);
+  std::swap(dst.allocator, src.allocator);
+  std::swap(dst.size_, src.size_);
+}
 
+/**
+ * Copying the nodes.
+ *
+ * @tparam Tp - the type of variable stored in the node.
+ * @tparam Aloc - allocator, memory manager for working with container. Default
+ *                on std::allocator.
+ * @param dst [in] - reference to the source node list.
+ * @param src [out] - reference to the source node list.
+ */
+template<typename Tp, typename Aloc = std::allocator<node<Tp>>>
+void copy(node_list<Tp, Aloc> &dst, const node_list<Tp, Aloc> &src)
+{
+  dst.head_ = src.head_;
+  dst.size_ = src.size_;
+  dst.allocator = src.allocator;
+
+  node<Tp> *cur_other = src.head_;
+  while (cur_other) {
+    dst->push_back(cur_other->value);
+    cur_other = cur_other->next;
+  }
+}
 
 template<typename T, typename A = std::allocator<node<T>>>
 class node_list
@@ -237,6 +278,12 @@ class node_list
       allocator.construct(new_node, node_t{nullptr,
                                            T(std::forward<Args>(args)...)});
 
+    /* Friends function */
+    template<typename Tp, typename Aloc>
+    friend void swap(node_list<Tp, Aloc> &dst, node_list<Tp, Aloc> &src);
+
+    template<typename Tp, typename Aloc>
+    friend void copy(node_list<Tp, Aloc> &dst, const node_list<Tp, Aloc> &src);
       if (head_ == nullptr)
         head_ = new_node;
       else {
