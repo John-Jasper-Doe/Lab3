@@ -16,6 +16,11 @@
 #include <cstring>
 
 
+/* Forward ad */
+template<typename T, std::size_t CAPACITY>
+class chunk_list;
+
+
 namespace {
 
 /**
@@ -32,12 +37,6 @@ struct chunk
   T value;      /**< - cells with information */
 };
 
-} /* namespace */
-
-
-/* Forward ad */
-template<typename T, std::size_t CAPACITY>
-class chunk_list;
 
 /**
  * Swap the node list.
@@ -55,6 +54,7 @@ void swap(chunk_list<Tp, SZ> &dst, chunk_list<Tp, SZ> &src)
   std::swap(dst.ptr_list_, src.ptr_list_);
   std::swap(dst.head_, src.head_);
 }
+
 
 /**
  * Copying the nodes.
@@ -84,6 +84,8 @@ void copy(chunk_list<Tp, SZ> &dst, const chunk_list<Tp, SZ> &src)
     }
   }
 }
+
+} /* namespace */
 
 
 /**

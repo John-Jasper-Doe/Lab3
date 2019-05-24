@@ -15,6 +15,11 @@
 #include <memory>
 
 
+/* Forward ad */
+template<typename T, typename A>
+class node_list;
+
+
 namespace {
 
 /**
@@ -105,12 +110,6 @@ class node_iterator : public std::iterator<std::input_iterator_tag, T>
 
 };
 
-} /* namespace */
-
-
-/* Forward ad */
-template<typename T, typename A>
-class node_list;
 
 /**
  * Swap the node list.
@@ -128,6 +127,7 @@ void swap(node_list<Tp, Aloc> &dst, node_list<Tp, Aloc> &src)
   std::swap(dst.allocator, src.allocator);
   std::swap(dst.size_, src.size_);
 }
+
 
 /**
  * Copying the nodes.
@@ -151,6 +151,8 @@ void copy(node_list<Tp, Aloc> &dst, const node_list<Tp, Aloc> &src)
     cur_other = cur_other->next;
   }
 }
+
+} /* namespace */
 
 
 /**
