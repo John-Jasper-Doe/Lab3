@@ -4,3 +4,5 @@
 
 ## Otus Developer C++ Course
 Homework "Allocator"
+
+Manual: https://john-jasper-doe.github.io/Lab3/index.html
