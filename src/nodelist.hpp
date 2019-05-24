@@ -261,26 +261,6 @@ class node_list
     }
 
     /**
-     * @brief Add an item to the top of the list.
-     * @param value [in] - add value.
-     */
-    void push_front(T &value) {
-      node_t *new_node = allocator.allocate(1);
-      allocator.construct(new_node, node_t{nullptr, value});
-      push_front_helper(new_node);
-    }
-
-    /**
-     * @brief Add an item to the top of the list.
-     * @param value [in] - add value.
-     */
-    void push_front(T &&value) {
-      node_t *new_node = allocator.allocate(1);
-      allocator.construct(new_node, node_t{nullptr, std::move(value)});
-      push_front_helper(new_node);
-    }
-
-    /**
      * @brief Add an item to the top of the list (variable number of params).
      * @tparam ...Args - params.
      * @param args [in] - add value.
@@ -290,26 +270,6 @@ class node_list
       node_t *new_node = allocator.allocate(1);
       allocator.construct(new_node, std::forward<Args>(args)...);
       push_front_helper(new_node);
-    }
-
-    /**
-     * @brief Add an item to the back of the list.
-     * @param value [in] - add value.
-     */
-    void push_back(T &value) {
-      node_t *new_node = allocator.allocate(1);
-      allocator.construct(new_node, node_t{nullptr, value});
-      push_back_helper(new_node);
-    }
-
-    /**
-     * @brief Add an item to the back of the list.
-     * @param value [in] - add value.
-     */
-    void push_back(T &&value) {
-      node_t *new_node = allocator.allocate(1);
-      allocator.construct(new_node, node_t{nullptr, std::move(value)});
-      push_back_helper(new_node);
     }
 
     /**
