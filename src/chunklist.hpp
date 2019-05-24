@@ -35,6 +35,57 @@ struct chunk
 } /* namespace */
 
 
+/* Forward ad */
+template<typename T, std::size_t CAPACITY>
+class chunk_list;
+
+/**
+ * Swap the node list.
+ *
+ * @tparam Tp - the type of variable stored in the node.
+ * @tparam Aloc - allocator, memory manager for working with container. Default
+ *                on std::allocator.
+ * @param dst [in] - receiving container.
+ * @param src [out] - source container.
+ */
+template<typename Tp, std::size_t SZ>
+void swap(chunk_list<Tp, SZ> &dst, chunk_list<Tp, SZ> &src)
+{
+  std::swap(dst.size_, src.size_);
+  std::swap(dst.ptr_list_, src.ptr_list_);
+  std::swap(dst.head_, src.head_);
+}
+
+/**
+ * Copying the nodes.
+ *
+ * @tparam Tp - the type of variable stored in the node.
+ * @tparam Aloc - allocator, memory manager for working with container. Default
+ *                on std::allocator.
+ * @param dst [in] - reference to the source node list.
+ * @param src [out] - reference to the source node list.
+ */
+template<typename Tp, std::size_t SZ>
+void copy(chunk_list<Tp, SZ> &dst, const chunk_list<Tp, SZ> &src)
+{
+  dst.size_ = src.size_;
+  dst.head_ = nullptr;
+
+  if (dst.size() > 0) {
+    std::size_t count = 0;
+    std::size_t size = dst.size();
+    chunk<Tp> *cur_other = src.ptr_list_;
+    while (count < size) {
+      Tp * tmp_ptr = src.alloc();
+      std::memcpy(tmp_ptr, &cur_other->value, sizeof(Tp));
+      dst.head_ = cur_other;
+      cur_other = cur_other->next;
+      ++count;
+    }
+  }
+}
+
+
 /**
  * Discription structure to the allocated memory.
  *
@@ -70,27 +121,39 @@ class chunk_list
       ::operator delete[](ptr_list_);
     }
 
-    /* moved */
-    chunk_list(chunk_list &&other) noexcept
-      : size_(other.size_)
-      , ptr_list_(other.ptr_list_)
-      , head_(other.head_) {
-      other.size_ = 0;
-      other.ptr_list_ = nullptr;
-      other.head_ = nullptr;
+    /**
+     * @brief Move constructor.
+     * @param other [in] - the object to move.
+     */
+    chunk_list(chunk_list &&other) {
+      swap(this, other);
     }
 
-    chunk_list & operator =(chunk_list &&other) noexcept {
-      std::swap(size_, other.size_);
-      std::swap(ptr_list_, other.ptr_list_);
-      std::swap(head_, other.head_);
+    /**
+     * @brief Move operator.
+     * @param other [in] - the object to move.
+     */
+    chunk_list & operator=(chunk_list &&other) {
+      swap(this, other);
       return *this;
     }
 
-    /* don't copyed */
-    chunk_list(const chunk_list &) = delete;
-    chunk_list & operator =(const chunk_list &) = delete;
+    /**
+     * @brief Copy constructor.
+     * @param other [in] - the object to copy.
+     */
+    chunk_list(const chunk_list &other) {
+      copy(this, other);
+    }
 
+    /**
+     * @brief Copy operator.
+     * @param other [in] - the object to copy.
+     */
+    chunk_list & operator=(const chunk_list &other) {
+      copy(this, other);
+      return *this;
+    }
 
     /**
      * @brief Allocate memory for an object.
@@ -154,6 +217,13 @@ class chunk_list
     chunk<T> *ptr_list_ =     /**< - pointer */
         static_cast<chunk<T> *>(::operator new[](CAPACITY * sizeof(chunk<T>)));
     chunk<T> *head_ = nullptr;  /**< - pointer on the head list. */
+
+    /* Friends function */
+    template<typename Tp, std::size_t SZ>
+    friend void swap(chunk_list<Tp, SZ> &dst, chunk_list<Tp, SZ> &src);
+
+    template<typename Tp, std::size_t SZ>
+    friend void copy(chunk_list<Tp, SZ> &dst, const chunk_list<Tp, SZ> &src);
 };
 
 #endif /* CHUNKLIST_HPP_ */
