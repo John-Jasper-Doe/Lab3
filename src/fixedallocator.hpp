@@ -10,7 +10,7 @@
 #ifndef FIXEDALLOCATOR_HPP_
 #define FIXEDALLOCATOR_HPP_
 
-#include "chunklist.h"
+#include "chunklist.hpp"
 
 #include <cstddef>
 
