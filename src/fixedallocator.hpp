@@ -44,10 +44,10 @@ class fixed_allocator
     ~fixed_allocator() = default;
 
     fixed_allocator(const fixed_allocator &) = default;
-    fixed_allocator(fixed_allocator &&) noexcept = default;
+    fixed_allocator(fixed_allocator &&) = default;
 
     fixed_allocator &operator=(const fixed_allocator &) = default;
-    fixed_allocator &operator=(fixed_allocator &&) noexcept = default;
+    fixed_allocator &operator=(fixed_allocator &&) = default;
 
     /**
      * @brief allocation of a given "piece" of memory.
@@ -58,7 +58,7 @@ class fixed_allocator
       pointer res = nullptr;
 
       if (n == 1) {
-        if (!mem_chunk_.is_filed()) {
+        if (!mem_chunk_.is_filled()) {
           res = mem_chunk_.alloc();
         }
       }
