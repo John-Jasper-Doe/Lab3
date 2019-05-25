@@ -62,6 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="namespaces.html"><span>Namespace&#160;List</span></a></li>
+      <li><a href="namespacemembers.html"><span>Namespace&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -81,7 +82,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Data Structures</a>  </div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">anonymous_namespace{nodelist.hpp} Namespace Reference</div>  </div>
 </div><!--header-->
@@ -93,7 +95,103 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanonymous__namespace_02nodelist_8hpp_03_1_1node__iterator.html">node_iterator</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a754e3f3c7d7ca587e16311554f791656"><td class="memTemplParams" colspan="2">template&lt;typename Tp , typename Aloc  = std::allocator&lt;node&lt;Tp&gt;&gt;&gt; </td></tr>
+<tr class="memitem:a754e3f3c7d7ca587e16311554f791656"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceanonymous__namespace_02nodelist_8hpp_03.html#a754e3f3c7d7ca587e16311554f791656">copy</a> (<a class="el" href="classnode__list.html">node_list</a>&lt; Tp, Aloc &gt; &amp;dst, const <a class="el" href="classnode__list.html">node_list</a>&lt; Tp, Aloc &gt; &amp;src)</td></tr>
+<tr class="separator:a754e3f3c7d7ca587e16311554f791656"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89b652f133bc522d27571db4cc210443"><td class="memTemplParams" colspan="2">template&lt;typename Tp , typename Aloc  = std::allocator&lt;node&lt;Tp&gt;&gt;&gt; </td></tr>
+<tr class="memitem:a89b652f133bc522d27571db4cc210443"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceanonymous__namespace_02nodelist_8hpp_03.html#a89b652f133bc522d27571db4cc210443">swap</a> (<a class="el" href="classnode__list.html">node_list</a>&lt; Tp, Aloc &gt; &amp;dst, <a class="el" href="classnode__list.html">node_list</a>&lt; Tp, Aloc &gt; &amp;src)</td></tr>
+<tr class="separator:a89b652f133bc522d27571db4cc210443"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a754e3f3c7d7ca587e16311554f791656"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Tp , typename Aloc  = std::allocator&lt;node&lt;Tp&gt;&gt;&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void anonymous_namespace{nodelist.hpp}::copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classnode__list.html">node_list</a>&lt; Tp, Aloc &gt; &amp;&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classnode__list.html">node_list</a>&lt; Tp, Aloc &gt; &amp;&#160;</td>
+          <td class="paramname"><em>src</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Copying the nodes.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Tp</td><td>- the type of variable stored in the node. </td></tr>
+    <tr><td class="paramname">Aloc</td><td>- allocator, memory manager for working with container. Default on std::allocator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dst</td><td>[in] - reference to the source node list. </td></tr>
+    <tr><td class="paramname">src</td><td>[out] - reference to the source node list. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a89b652f133bc522d27571db4cc210443"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Tp , typename Aloc  = std::allocator&lt;node&lt;Tp&gt;&gt;&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void anonymous_namespace{nodelist.hpp}::swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classnode__list.html">node_list</a>&lt; Tp, Aloc &gt; &amp;&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classnode__list.html">node_list</a>&lt; Tp, Aloc &gt; &amp;&#160;</td>
+          <td class="paramname"><em>src</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Swap the node list.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Tp</td><td>- the type of variable stored in the node. </td></tr>
+    <tr><td class="paramname">Aloc</td><td>- allocator, memory manager for working with container. Default on std::allocator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dst</td><td>[in] - receiving container. </td></tr>
+    <tr><td class="paramname">src</td><td>[out] - source container. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
